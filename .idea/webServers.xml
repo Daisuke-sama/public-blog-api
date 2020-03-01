@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="cf912f3f-c3ff-4ead-8aba-fc2274765bef" name="local" url="http://api.loc">
+        <fileTransfer host="api.loc" port="2222" privateKey="$PROJECT_DIR$/../laradock/workspace/insecure_id_rsa" rootFolder="/var/www/api" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="2222" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
