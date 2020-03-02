@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -7,8 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource(
+ *     itemOperations={"get"},
+ *     collectionOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
- * @ApiResource()
  */
 class BlogPost
 {
@@ -121,7 +125,7 @@ class BlogPost
         return $this;
     }
 
-    public function getComments(): ArrayCollection
+    public function getComments()
     {
         return $this->comments;
     }
