@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"username", "email"})
+ * @UniqueEntity(fields={"username"})
+ * @UniqueEntity(fields={"email"})
  */
 class User implements UserInterface
 {
@@ -37,7 +38,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups({"read"})
      * @Assert\NotBlank()
-     * @Assert\Length(min=6, max=255)
+     * @Assert\Length(min=3, max=255)
      */
     private ?string $username = null;
 
@@ -45,8 +46,8 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Regex(
-     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}/",
-     *     message="Password must be six characters long and contain at least one digit, one uppercase letter and one lower case letter."
+     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{3,}/",
+     *     message="Password must be three characters long and contain at least one digit, one uppercase letter and one lower case letter."
      * )
      */
     private ?string $password = null;
