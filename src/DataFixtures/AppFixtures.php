@@ -27,36 +27,56 @@ class AppFixtures extends Fixture
             'password' => 'admin',
             'email'    => 'admin@email.com',
             'name'     => 'Pasha',
+            'roles'    => [User::ROLE_ADMIN],
         ],
         [
             'username' => 'petr',
             'password' => 'secretpetr',
             'email'    => 'petr@email.com',
             'name'     => 'Petr',
+            'roles'    => [User::ROLE_EDITOR],
         ],
         [
             'username' => 'vitya',
             'password' => 'secretvitya',
             'email'    => 'vitya@email.com',
             'name'     => 'Vitya',
+            'roles'    => [User::ROLE_MANAGER],
         ],
         [
             'username' => 'stan',
             'password' => 'secretstan',
             'email'    => 'stan@email.com',
             'name'     => 'Stan',
+            'roles'    => [User::ROLE_WRITER],
         ],
         [
             'username' => 'julia',
             'password' => 'secretjulia',
             'email'    => 'julia@email.com',
             'name'     => 'Julia',
+            'roles'    => [User::ROLE_COMMENTER],
         ],
         [
             'username' => 'katya',
             'password' => 'secretkatya',
             'email'    => 'katya@email.com',
             'name'     => 'Katya',
+            'roles'    => [User::ROLE_WRITER],
+        ],
+        [
+            'username' => 'vasya',
+            'password' => 'secretvasya',
+            'email'    => 'vasya@email.com',
+            'name'     => 'Vasya',
+            'roles'    => [User::ROLE_EDITOR],
+        ],
+        [
+            'username' => 'jin',
+            'password' => 'secretjin',
+            'email'    => 'vasya@email.com',
+            'name'     => 'Jin',
+            'roles'    => [User::ROLE_COMMENTER],
         ],
     ];
 
@@ -77,7 +97,7 @@ class AppFixtures extends Fixture
     {
         for ($i = 0; $i < 50; $i++) {
             $post = new BlogPost();
-            $post->setAuthor($this->getUserRandomReference())
+            $post->setAuthor($this->getUserRandomReference($post))
                  ->setTitle($this->faker->realText(20))
                  ->setPublished($this->faker->dateTime)
                  ->setContent($this->faker->realText())
@@ -97,7 +117,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 50; $i++) {
             for ($k = 0; $k < $this->faker->randomDigitNotNull; $k++) {
                 $comment = new Comment();
-                $comment->setAuthor($this->getUserRandomReference())
+                $comment->setAuthor($this->getUserRandomReference($comment))
                         ->setContent($this->faker->realText(50))
                         ->setPublished($this->faker->dateTimeThisYear)
                         ->setPost($this->getReference("blog_post_$i"));
@@ -115,7 +135,8 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setName($fakeUser['name'])
                  ->setEmail($fakeUser['email'])
-                 ->setUsername($fakeUser['username']);
+                 ->setUsername($fakeUser['username'])
+                 ->setRoles($fakeUser['roles']);
 
             $user->setPassword(
                 $this->passwordEncoder->encodePassword(
@@ -132,8 +153,31 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private function getUserRandomReference(): User
+    private function getUserRandomReference($entity): User
     {
-        return $this->getReference('user_'.self::USERS[random_int(0, count(self::USERS) - 1)]['username']);
+        $countUsers = count(self::USERS) - 1;
+        $randomUser = self::USERS[random_int(0, $countUsers)];
+
+        if ($entity instanceof BlogPost &&
+            ! count(
+                array_intersect(
+                    $randomUser['roles'],
+                    [User::ROLE_ADMIN, User::ROLE_MANAGER, User::ROLE_WRITER]
+                )
+            )) {
+            return $this->getUserRandomReference($entity);
+        }
+
+        if ($entity instanceof Comment &&
+            ! count(
+                array_intersect(
+                    $randomUser['roles'],
+                    [User::ROLE_ADMIN, User::ROLE_MANAGER, User::ROLE_WRITER, User::ROLE_COMMENTER]
+                )
+            )) {
+            return $this->getUserRandomReference($entity);
+        }
+
+        return $this->getReference('user_'.$randomUser['username']);
     }
 }

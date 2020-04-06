@@ -19,13 +19,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "denormalization_context"={
  *                  "groups"={"comment:put"}
  *              },
- *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') && object.getAuthor() == user"
+ *              "access_control"="is_granted('ROLE_EDITOR') or is_granted('ROLE_COMMENTER') && object.getAuthor() == user"
  *          }
  *     },
  *     collectionOperations={
  *          "get",
  *          "post"={
- *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *              "access_control"="is_granted('ROLE_COMMENTER')"
  *          },
  *          "api_blog_posts_comments_get_subresource"={
  *              "normalization_context"={
@@ -53,7 +53,7 @@ class Comment implements AuthoredEntityInterface, PublishedDateEntityInterface
     private ?int $id = null;
 
     /**
-     * @Groups({"comment:get", "comment:post", "comment:get:with-author"})
+     * @Groups({"comment:get", "comment:post", "comment:put", "comment:get:with-author"})
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      * @Assert\Length(min=10)

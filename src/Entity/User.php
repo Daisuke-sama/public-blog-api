@@ -56,6 +56,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    const ROLE_COMMENTER = 'ROLE_COMMENTER';
+    const ROLE_WRITER = 'ROLE_WRITER';
+    const ROLE_EDITOR = 'ROLE_EDITOR';
+    const ROLE_MANAGER = 'ROLE_MANAGER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
+    const DEFAULT_ROLES = [self::ROLE_COMMENTER];
+
     /**
      * @Groups({"user:get"})
      * @ORM\Id()
@@ -73,8 +81,8 @@ class User implements UserInterface
     private ?string $username = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Groups({"user:post", "user:put"})
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{3,}/",
@@ -102,8 +110,8 @@ class User implements UserInterface
     private ?string $name = null;
 
     /**
+     * @Groups({"user:post", "user:put", "user:manager:get", "user:owner:get"})
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:post", "user:put", "comment:get", "blog:get"})
      * @Assert\NotBlank()
      * @Assert\Email()
      * @Assert\Length(min=6, max=255)
@@ -122,10 +130,18 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @Groups({"user:manager:get", "user:owner:get"})
+     * @ORM\Column(type="simple_array", length=300)
+     */
+    private array $roles;
+
+
     public function __construct()
     {
         $this->posts    = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->roles    = self::DEFAULT_ROLES;
     }
 
     public function getId(): ?int
@@ -196,7 +212,14 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**
