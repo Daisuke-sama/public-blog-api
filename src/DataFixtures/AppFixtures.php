@@ -6,7 +6,8 @@ use App\Entity\BlogPost;
 use App\Entity\Comment;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Generator;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -16,9 +17,48 @@ class AppFixtures extends Fixture
      */
     private UserPasswordEncoderInterface $passwordEncoder;
     /**
-     * @var \Faker\Generator
+     * @var Generator
      */
-    private \Faker\Generator $faker;
+    private Generator $faker;
+
+    private const USERS = [
+        [
+            'username' => 'admin',
+            'password' => 'admin',
+            'email'    => 'admin@email.com',
+            'name'     => 'Pasha',
+        ],
+        [
+            'username' => 'petr',
+            'password' => 'secretpetr',
+            'email'    => 'petr@email.com',
+            'name'     => 'Petr',
+        ],
+        [
+            'username' => 'vitya',
+            'password' => 'secretvitya',
+            'email'    => 'vitya@email.com',
+            'name'     => 'Vitya',
+        ],
+        [
+            'username' => 'stan',
+            'password' => 'secretstan',
+            'email'    => 'stan@email.com',
+            'name'     => 'Stan',
+        ],
+        [
+            'username' => 'julia',
+            'password' => 'secretjulia',
+            'email'    => 'julia@email.com',
+            'name'     => 'Julia',
+        ],
+        [
+            'username' => 'katya',
+            'password' => 'secretkatya',
+            'email'    => 'katya@email.com',
+            'name'     => 'Katya',
+        ],
+    ];
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -35,12 +75,9 @@ class AppFixtures extends Fixture
 
     public function loadBlogPosts(ObjectManager $manager): void
     {
-        /** @var User $user */
-        $user = $this->getReference('admin');
-
         for ($i = 0; $i < 50; $i++) {
             $post = new BlogPost();
-            $post->setAuthor($user)
+            $post->setAuthor($this->getUserRandomReference())
                  ->setTitle($this->faker->realText(20))
                  ->setPublished($this->faker->dateTime)
                  ->setContent($this->faker->realText())
@@ -60,9 +97,9 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 50; $i++) {
             for ($k = 0; $k < $this->faker->randomDigitNotNull; $k++) {
                 $comment = new Comment();
-                $comment->setAuthor($this->getReference('admin'))
-                        ->setPublished($this->faker->dateTimeThisYear)
+                $comment->setAuthor($this->getUserRandomReference())
                         ->setContent($this->faker->realText(50))
+                        ->setPublished($this->faker->dateTimeThisYear)
                         ->setPost($this->getReference("blog_post_$i"));
 
                 $manager->persist($comment);
@@ -74,21 +111,29 @@ class AppFixtures extends Fixture
 
     public function loadUsers(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->setName('Tolik')
-             ->setEmail('abc@api.loc')
-             ->setUsername('tolik');
+        foreach (self::USERS as $fakeUser) {
+            $user = new User();
+            $user->setName($fakeUser['name'])
+                 ->setEmail($fakeUser['email'])
+                 ->setUsername($fakeUser['username']);
 
-        $user->setPassword(
-            $this->passwordEncoder->encodePassword(
-                $user,
-                'password'
-            )
-        );
+            $user->setPassword(
+                $this->passwordEncoder->encodePassword(
+                    $user,
+                    $fakeUser['password']
+                )
+            );
 
-        $this->addReference('admin', $user);
+            $this->addReference("user_{$fakeUser['username']}", $user);
 
-        $manager->persist($user);
+            $manager->persist($user);
+        }
+
         $manager->flush();
+    }
+
+    private function getUserRandomReference(): User
+    {
+        return $this->getReference('user_'.self::USERS[random_int(0, count(self::USERS) - 1)]['username']);
     }
 }

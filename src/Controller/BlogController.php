@@ -21,7 +21,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/{page}", name="blog.list", defaults={"page": 3}, requirements={"page"="\d+"})
      */
-    public function list(int $page = 1, Request $request): JsonResponse
+    public function list(Request $request, int $page = 1): JsonResponse
     {
         $limit = $request->get('limit', 20);
         $repo  = $this->getDoctrine()->getRepository(BlogPost::class);
