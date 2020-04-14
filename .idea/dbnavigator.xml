@@ -23,11 +23,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="f6dd3309-e275-44a7-bac9-81997d5113eb">
-        <schema name="main" object-types="table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f6dd3309-e275-44a7-bac9-81997d5113eb">
@@ -289,6 +285,8 @@
           <content-type name="SQL" enabled="true" />
           <content-type name="PL/SQL" enabled="true" />
           <content-type name="JavaScript" enabled="true" />
+          <content-type name="JSON" enabled="true" />
+          <content-type name="JSON5" enabled="true" />
           <content-type name="PHP" enabled="true" />
           <content-type name="YAML" enabled="true" />
           <content-type name="Bash" enabled="true" />

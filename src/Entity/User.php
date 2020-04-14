@@ -9,16 +9,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\ResetPasswordAction;
 
 /**
  * @ApiResource(
  *     normalizationContext={
- *          "groups"={"user:get"}
+ *          "groups" = {"user:get"}
  *     },
- *     itemOperations={
- *          "get"= {
+ *     itemOperations = {
+ *          "get" = {
  *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
  *              "normalization_context"={
  *                  "groups"={"user:get"}
@@ -32,20 +34,29 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "normalization_context"={
  *                  "groups"={"user:get"}
  *              }
+ *          },
+ *          "user:put:reset-pass" = {
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *              "method" = "PUT",
+ *              "path" = "/users/{id}/reset-password",
+ *              "controller" = ResetPasswordAction::class,
+ *              "denormalization_context"={
+ *                  "groups"={"user:put:reset-pass"}
+ *              }
  *          }
  *     },
- *     collectionOperations={
+ *     collectionOperations = {
  *          "get" = {
- *              "normalization_context"={
- *                  "groups"={"user:get"}
+ *              "normalization_context" = {
+ *                  "groups" = {"user:get"}
  *              }
  *          },
  *          "post" = {
- *              "denormalization_context"={
- *                  "groups"={"user:post"}
+ *              "denormalization_context" = {
+ *                  "groups" = {"user:post"}
  *              },
- *              "normalization_context"={
- *                  "groups"={"user:get"}
+ *              "normalization_context" = {
+ *                  "groups" = {"user:get"}
  *              }
  *          }
  *      }
@@ -56,11 +67,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-    const ROLE_COMMENTER = 'ROLE_COMMENTER';
-    const ROLE_WRITER = 'ROLE_WRITER';
-    const ROLE_EDITOR = 'ROLE_EDITOR';
-    const ROLE_MANAGER = 'ROLE_MANAGER';
-    const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_COMMENTER = 'ROLE_COMMENTER';
+    public const ROLE_WRITER = 'ROLE_WRITER';
+    public const ROLE_EDITOR = 'ROLE_EDITOR';
+    public const ROLE_MANAGER = 'ROLE_MANAGER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     const DEFAULT_ROLES = [self::ROLE_COMMENTER];
 
@@ -75,13 +86,13 @@ class User implements UserInterface
     /**
      * @Groups({"user:get", "user:post", "comment:get"})
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=3, max=255)
+     * @Assert\NotBlank(groups={"user:post"})
+     * @Assert\Length(min=3, max=255, groups={"user:post"})
      */
     private ?string $username = null;
 
     /**
-     * @Groups({"user:post", "user:put"})
+     * @Groups({"user:post"})
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Regex(
@@ -92,29 +103,57 @@ class User implements UserInterface
     private ?string $password = null;
 
     /**
-     * @Groups({"user:post", "user:put"})
-     * @Assert\NotBlank()
+     * @Groups({"user:post"})
+     * @Assert\NotBlank(groups={"user:post"})
      * @Assert\Expression(
      *     "this.getPassword() === this.getRetypedPassword()",
-     *     message="Passwords does not match"
+     *     message="Passwords does not match",
+     *     groups={"user:post"}
      * )
      */
     private ?string $retypedPassword = null;
 
     /**
+     * @Groups({"user:put:reset-pass"})
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{3,}/",
+     *     message="Password must be three characters long and contain at least one digit, one uppercase letter and one lower case letter."
+     * )
+     */
+    private ?string $newPassword = null;
+
+    /**
+     * @Groups({"user:put:reset-pass"})
+     * @Assert\NotBlank()
+     * @Assert\Expression(
+     *     "this.getNewPassword() === this.getRetypedNewPassword()",
+     *     message="Passwords does not match"
+     * )
+     */
+    private ?string $retypedNewPassword = null;
+
+    /**
+     * @Groups({"user:put:reset-pass"})
+     * @Assert\NotBlank()
+     * @UserPassword()
+     */
+    private ?string $oldPassword = null;
+
+    /**
      * @Groups({"user:get", "user:post", "user:put", "comment:get", "blog:get"})
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=3, max=50)
+     * @Assert\NotBlank(groups={"user:post"})
+     * @Assert\Length(min=3, max=50, groups={"user:post", "user:put"})
      */
     private ?string $name = null;
 
     /**
      * @Groups({"user:post", "user:put", "user:manager:get", "user:owner:get"})
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     * @Assert\Length(min=6, max=255)
+     * @Assert\NotBlank(groups={"user:post"})
+     * @Assert\Email(groups={"user:post", "user:put"})
+     * @Assert\Length(min=6, max=255, groups={"user:post", "user:put"})
      */
     private ?string $email = null;
 
@@ -135,6 +174,11 @@ class User implements UserInterface
      * @ORM\Column(type="simple_array", length=300)
      */
     private array $roles;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $passwordChangeDate;
 
 
     public function __construct()
@@ -238,7 +282,7 @@ class User implements UserInterface
 
     }
 
-    public function getRetypedPassword(): string
+    public function getRetypedPassword(): ?string
     {
         return $this->retypedPassword;
     }
@@ -246,6 +290,78 @@ class User implements UserInterface
     public function setRetypedPassword(string $retypedPassword): self
     {
         $this->retypedPassword = $retypedPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNewPassword(): ?string
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * @param string|null $newPassword
+     *
+     * @return User
+     */
+    public function setNewPassword(?string $newPassword): self
+    {
+        $this->newPassword = $newPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRetypedNewPassword(): ?string
+    {
+        return $this->retypedNewPassword;
+    }
+
+    /**
+     * @param string|null $retypedNewPassword
+     *
+     * @return User
+     */
+    public function setRetypedNewPassword(?string $retypedNewPassword): self
+    {
+        $this->retypedNewPassword = $retypedNewPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOldPassword(): ?string
+    {
+        return $this->oldPassword;
+    }
+
+    /**
+     * @param string|null $oldPassword
+     *
+     * @return User
+     */
+    public function setOldPassword(?string $oldPassword): self
+    {
+        $this->oldPassword = $oldPassword;
+
+        return $this;
+    }
+
+    public function getPasswordChangeDate(): int
+    {
+        return $this->passwordChangeDate;
+    }
+
+    public function setPasswordChangeDate(int $passwordChangeDate): self
+    {
+        $this->passwordChangeDate = $passwordChangeDate;
 
         return $this;
     }
