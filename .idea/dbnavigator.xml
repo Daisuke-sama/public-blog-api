@@ -112,7 +112,7 @@
           <session-management value="true" />
           <ddl-file-binding value="true" />
           <database-logging value="false" />
-          <connect-automatically value="true" />
+          <connect-automatically value="false" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="true" />
           <environment-type value="default" />
@@ -288,6 +288,7 @@
           <content-type name="JSON" enabled="true" />
           <content-type name="JSON5" enabled="true" />
           <content-type name="PHP" enabled="true" />
+          <content-type name="ASP" enabled="true" />
           <content-type name="YAML" enabled="true" />
           <content-type name="Bash" enabled="true" />
         </content-types>

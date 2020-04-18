@@ -94,8 +94,9 @@ class User implements UserInterface
     /**
      * @Groups({"user:post"})
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"user:post"})
      * @Assert\Regex(
+     *     groups={"user:post"},
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{3,}/",
      *     message="Password must be three characters long and contain at least one digit, one uppercase letter and one lower case letter."
      * )
@@ -115,8 +116,9 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:put:reset-pass"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"user:put:reset-pass"})
      * @Assert\Regex(
+     *     groups={"user:put:reset-pass"},
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{3,}/",
      *     message="Password must be three characters long and contain at least one digit, one uppercase letter and one lower case letter."
      * )
@@ -125,18 +127,19 @@ class User implements UserInterface
 
     /**
      * @Groups({"user:put:reset-pass"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"user:put:reset-pass"})
      * @Assert\Expression(
      *     "this.getNewPassword() === this.getRetypedNewPassword()",
-     *     message="Passwords does not match"
+     *     message="Passwords does not match",
+     *     groups={"user:put:reset-pass"}
      * )
      */
     private ?string $retypedNewPassword = null;
 
     /**
      * @Groups({"user:put:reset-pass"})
-     * @Assert\NotBlank()
-     * @UserPassword()
+     * @Assert\NotBlank(groups={"user:put:reset-pass"})
+     * @UserPassword(groups={"user:put:reset-pass"})
      */
     private ?string $oldPassword = null;
 
@@ -178,7 +181,18 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $passwordChangeDate;
+    private ?int $passwordChangeDate = null;
+
+    /**
+     * @Groups({"user:get"})
+     * @ORM\Column(type="boolean")
+     */
+    private bool $enabled = false;
+
+    /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    private ?string $confirmationToken = null;
 
 
     public function __construct()
@@ -251,9 +265,6 @@ class User implements UserInterface
         return $this->comments;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRoles(): array
     {
         return $this->roles;
@@ -266,17 +277,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function eraseCredentials()
     {
 
@@ -294,19 +299,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNewPassword(): ?string
     {
         return $this->newPassword;
     }
 
-    /**
-     * @param string|null $newPassword
-     *
-     * @return User
-     */
     public function setNewPassword(?string $newPassword): self
     {
         $this->newPassword = $newPassword;
@@ -314,19 +311,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getRetypedNewPassword(): ?string
     {
         return $this->retypedNewPassword;
     }
 
-    /**
-     * @param string|null $retypedNewPassword
-     *
-     * @return User
-     */
     public function setRetypedNewPassword(?string $retypedNewPassword): self
     {
         $this->retypedNewPassword = $retypedNewPassword;
@@ -334,19 +323,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOldPassword(): ?string
     {
         return $this->oldPassword;
     }
 
-    /**
-     * @param string|null $oldPassword
-     *
-     * @return User
-     */
     public function setOldPassword(?string $oldPassword): self
     {
         $this->oldPassword = $oldPassword;
@@ -354,7 +335,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPasswordChangeDate(): int
+    public function getPasswordChangeDate(): ?int
     {
         return $this->passwordChangeDate;
     }
@@ -362,6 +343,30 @@ class User implements UserInterface
     public function setPasswordChangeDate(int $passwordChangeDate): self
     {
         $this->passwordChangeDate = $passwordChangeDate;
+
+        return $this;
+    }
+
+    public function getEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken(?string $confirmationToken): self
+    {
+        $this->confirmationToken = $confirmationToken;
 
         return $this;
     }

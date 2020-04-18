@@ -101,12 +101,17 @@
       <path value="$PROJECT_DIR$/vendor/namshi/jose" />
       <path value="$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle" />
       <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/vendor/symfony/swiftmailer-bundle" />
+      <path value="$PROJECT_DIR$/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/twig-pack" />
+      <path value="$PROJECT_DIR$/vendor/twig/extra-bundle" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="29dabb00-2de4-4740-b41e-69305f84bdc9" name="Remote PHP 7.4" home="sftp://DATA" debugger_id="php.debugger.XDebug">
-        <remote_data WEB_SERVER_CONFIG_ID="cf912f3f-c3ff-4ead-8aba-fc2274765bef" WEB_SERVER_CONFIG_NAME="local" WEB_SERVER_CREDENTIALS_ID="sftp://root@api.loc:2222" INTERPRETER_PATH="/usr/bin/php" HELPERS_PATH="/root/.phpstorm_helpers" INITIALIZED="false" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" />
+      <interpreter id="29dabb00-2de4-4740-b41e-69305f84bdc9" name="Remote PHP 7.4" home="sshConfig://DATA" debugger_id="php.debugger.XDebug">
+        <remote_data INTERPRETER_PATH="/usr/bin/php" HELPERS_PATH="/root/.phpstorm_helpers" INITIALIZED="false" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" SSH_CONFIG_ID="a7e1edf8-4a7b-41c6-b57f-8052c3778d7d" SSH_CONFIG_NAME="local" SSH_CREDENTIALS_ID="sshConfig://local" />
       </interpreter>
     </interpreters>
   </component>

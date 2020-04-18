@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="api.loc" id="cb6857c3-204e-46c7-9f3b-c30057a0471b" keyPath="$PROJECT_DIR$/../laradock/workspace/insecure_id_rsa" port="2222" customName="local" nameFormat="CUSTOM" username="root" />
+      <sshConfig host="api.loc" id="a7e1edf8-4a7b-41c6-b57f-8052c3778d7d" keyPath="$PROJECT_DIR$/../laradock/workspace/insecure_id_rsa" port="2222" customName="local" nameFormat="CUSTOM" username="root" />
+    </configs>
+  </component>
+</project>

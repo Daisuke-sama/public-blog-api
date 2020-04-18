@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\BlogPost;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Security\TokenGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
@@ -12,14 +13,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    /**
-     * @var UserPasswordEncoderInterface
-     */
     private UserPasswordEncoderInterface $passwordEncoder;
-    /**
-     * @var Generator
-     */
     private Generator $faker;
+    private TokenGenerator $tokenGenerator;
+
 
     private const USERS = [
         [
@@ -28,6 +25,7 @@ class AppFixtures extends Fixture
             'email'    => 'admin@email.com',
             'name'     => 'Pasha',
             'roles'    => [User::ROLE_ADMIN],
+            'enabled'  => true,
         ],
         [
             'username' => 'petr',
@@ -35,6 +33,7 @@ class AppFixtures extends Fixture
             'email'    => 'petr@email.com',
             'name'     => 'Petr',
             'roles'    => [User::ROLE_EDITOR],
+            'enabled'  => false,
         ],
         [
             'username' => 'vitya',
@@ -42,6 +41,7 @@ class AppFixtures extends Fixture
             'email'    => 'vitya@email.com',
             'name'     => 'Vitya',
             'roles'    => [User::ROLE_MANAGER],
+            'enabled'  => true,
         ],
         [
             'username' => 'stan',
@@ -49,6 +49,7 @@ class AppFixtures extends Fixture
             'email'    => 'stan@email.com',
             'name'     => 'Stan',
             'roles'    => [User::ROLE_WRITER],
+            'enabled'  => true,
         ],
         [
             'username' => 'julia',
@@ -56,6 +57,7 @@ class AppFixtures extends Fixture
             'email'    => 'julia@email.com',
             'name'     => 'Julia',
             'roles'    => [User::ROLE_COMMENTER],
+            'enabled'  => false,
         ],
         [
             'username' => 'katya',
@@ -63,6 +65,7 @@ class AppFixtures extends Fixture
             'email'    => 'katya@email.com',
             'name'     => 'Katya',
             'roles'    => [User::ROLE_WRITER],
+            'enabled'  => true,
         ],
         [
             'username' => 'vasya',
@@ -70,6 +73,7 @@ class AppFixtures extends Fixture
             'email'    => 'vasya@email.com',
             'name'     => 'Vasya',
             'roles'    => [User::ROLE_EDITOR],
+            'enabled'  => true,
         ],
         [
             'username' => 'jin',
@@ -77,13 +81,17 @@ class AppFixtures extends Fixture
             'email'    => 'vasya@email.com',
             'name'     => 'Jin',
             'roles'    => [User::ROLE_COMMENTER],
+            'enabled'  => true,
         ],
     ];
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-    {
+    public function __construct(
+        UserPasswordEncoderInterface $passwordEncoder,
+        TokenGenerator $tokenGenerator
+    ) {
         $this->passwordEncoder = $passwordEncoder;
         $this->faker           = \Faker\Factory::create();
+        $this->tokenGenerator  = $tokenGenerator;
     }
 
     public function load(ObjectManager $manager)
@@ -136,7 +144,8 @@ class AppFixtures extends Fixture
             $user->setName($fakeUser['name'])
                  ->setEmail($fakeUser['email'])
                  ->setUsername($fakeUser['username'])
-                 ->setRoles($fakeUser['roles']);
+                 ->setRoles($fakeUser['roles'])
+                 ->setEnabled($fakeUser['enabled']);
 
             $user->setPassword(
                 $this->passwordEncoder->encodePassword(
@@ -144,6 +153,12 @@ class AppFixtures extends Fixture
                     $fakeUser['password']
                 )
             );
+
+            if ( ! $user->getEnabled()) {
+                $user->setConfirmationToken(
+                    $this->tokenGenerator->getRandomSecureToken()
+                );
+            }
 
             $this->addReference("user_{$fakeUser['username']}", $user);
 
