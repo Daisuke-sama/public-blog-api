@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Entity\CouplingInterfaces\AuthoredEntityInterface;
 use App\Entity\CouplingInterfaces\PublishedDateEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -86,16 +87,24 @@ class BlogPost implements AuthoredEntityInterface, PublishedDateEntityInterface
     private ?string $slug = null;
 
     /**
-     * @Groups({"blog:get:with-author"})
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
      * @ORM\JoinColumn(nullable=true)
      * @ApiSubresource()
      */
     private $comments;
 
+    /**
+     * @Groups({"blog:get", "blog:post", "blog:put"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Image")
+     * @ORM\JoinTable()
+     * @ApiSubresource()
+     */
+    private $images;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->images   = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,5 +175,22 @@ class BlogPost implements AuthoredEntityInterface, PublishedDateEntityInterface
     public function getComments()
     {
         return $this->comments;
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        $this->images->add($image);
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): void
+    {
+        $this->images->removeElement($image);
     }
 }
