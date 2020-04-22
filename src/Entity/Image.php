@@ -14,6 +14,7 @@ use App\Controller\UploadImageAction;
  * @ORM\Entity()
  * @Vich\Uploadable()
  * @ApiResource(
+ *     attributes={"order"={"id": "DESC"}},
  *     collectionOperations={
  *          "get"={
  *              "normalization_context"={
@@ -27,11 +28,6 @@ use App\Controller\UploadImageAction;
  *              "defaults"={"_api_receive"=false},
  *              "normalization_context"={
  *                  "groups"={"image:post"}
- *              }
- *          },
- *          "api_blog_posts_images_get_subresource"={
- *              "normalization_context"={
- *                  "groups"={"image:get:with-post"}
  *              }
  *          }
  *     }
@@ -53,7 +49,7 @@ class Image
     private $file;
 
     /**
-     * @Groups({"image:get", "image:post", "image:get:with-post"})
+     * @Groups({"image:get", "image:post", "blog:get"})
      * @ORM\Column(nullable=true)
      */
     private ?string $url;

@@ -3,7 +3,7 @@
   <component name="SshConfigs">
     <configs>
       <sshConfig host="api.loc" id="cb6857c3-204e-46c7-9f3b-c30057a0471b" keyPath="$PROJECT_DIR$/../laradock/workspace/insecure_id_rsa" port="2222" customName="local" nameFormat="CUSTOM" username="root" />
-      <sshConfig host="api.loc" id="436e7ee9-05f2-4f21-925a-79c54dc84f17" keyPath="$PROJECT_DIR$/../laradock/workspace/insecure_id_rsa" port="2222" customName="local" nameFormat="CUSTOM" username="root" />
+      <sshConfig host="api.loc" id="7c151265-adda-406e-af89-58bb5ec517c3" keyPath="$PROJECT_DIR$/../laradock/workspace/insecure_id_rsa" port="2222" customName="local" nameFormat="CUSTOM" username="root" />
     </configs>
   </component>
 </project>
