@@ -5,5 +5,16 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
-#    collection:
+    collection:
 #        order_parameter_name: '_order'
+        pagination:
+#            enabled: false
+            page_parameter_name: _page
+#            client_enabled: true
+#            enabled_parameter_name: pagination
+            items_per_page: 5
+            client_items_per_page: false        # disallowing client to manage items count per request
+            items_per_page_parameter_name: itemsPerPage
+            partial: false                      # only link to the next page instead of all
+            client_partial: true
+            partial_parameter_name: '_partial'

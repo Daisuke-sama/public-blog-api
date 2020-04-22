@@ -60,7 +60,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ApiResource(
- *     attributes={"order"={"published": "DESC"}},
+ *     attributes={"order"={"published": "DESC"}, "maximum_items_per_page"=15},
  *     itemOperations={
  *          "get",
  *          "put" = {
