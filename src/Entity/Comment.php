@@ -34,6 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "access_control"="is_granted('ROLE_COMMENTER')"
  *          },
  *          "api_blog_posts_comments_get_subresource"={
+ *              "route_name"="api_blog_posts_comments_get_subresource",
  *              "normalization_context"={
  *                  "groups"={"comment:get:with-author"}
  *              }

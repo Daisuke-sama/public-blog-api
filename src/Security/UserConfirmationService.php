@@ -5,9 +5,10 @@ namespace App\Security;
 
 
 
+use App\Exception\InvalidConfirmationTokenException;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Psr\Log\LoggerInterface;
 
 class UserConfirmationService
 {
@@ -19,14 +20,20 @@ class UserConfirmationService
      * @var EntityManagerInterface
      */
     private EntityManagerInterface $entityManager;
+    /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
 
     public function __construct(
         UserRepository $userRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger
     )
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
     }
 
     public function confirmUser(string $confirmationToken): void
@@ -36,8 +43,12 @@ class UserConfirmationService
         );
 
         if ( ! $user) {
-            throw new NotFoundHttpException();
+            $this->logger->debug('Invalid token was detected.');
+
+            throw new InvalidConfirmationTokenException();
         }
+
+        $this->logger->debug('Detected the valid token.');
 
         $user->setEnabled(true)
              ->setConfirmationToken(null);

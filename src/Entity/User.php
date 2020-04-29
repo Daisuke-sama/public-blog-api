@@ -42,7 +42,8 @@ use App\Controller\ResetPasswordAction;
  *              "controller" = ResetPasswordAction::class,
  *              "denormalization_context"={
  *                  "groups"={"user:put:reset-pass"}
- *              }
+ *              },
+ *              "validation_groups"={"Default", "user:put:reset-pass"}
  *          }
  *     },
  *     collectionOperations = {
@@ -57,7 +58,8 @@ use App\Controller\ResetPasswordAction;
  *              },
  *              "normalization_context" = {
  *                  "groups" = {"user:get"}
- *              }
+ *              },
+ *              "validatinon_groups"={"Default", "user:post"}
  *          }
  *      }
  * )
