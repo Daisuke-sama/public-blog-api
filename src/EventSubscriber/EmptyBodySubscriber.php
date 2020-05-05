@@ -23,9 +23,14 @@ class EmptyBodySubscriber implements EventSubscriberInterface
 
     public function handleEmptyBody(RequestEvent $event): void
     {
-        $method = $event->getRequest()->getMethod();
+        $request = $event->getRequest();
+        $method  = $request->getMethod();
+        $route   = $request->get('_route');
 
-        if ( ! in_array($method, [Request::METHOD_POST, Request::METHOD_PUT], true)) {
+        if ( ! in_array($method, [Request::METHOD_POST, Request::METHOD_PUT], true) ||
+             in_array($request->getContentType(), ['html', 'form']) ||
+             strpos($route, 'api') !== 0
+        ) {
             return;
         }
 

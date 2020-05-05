@@ -40,7 +40,7 @@ class Image
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @Vich\UploadableField(mapping="images", fileNameProperty="url")
@@ -52,7 +52,7 @@ class Image
      * @Groups({"image:get", "image:post", "blog:get"})
      * @ORM\Column(nullable=true)
      */
-    private ?string $url;
+    private ?string $url = null;
 
     public function getId(): ?int
     {
@@ -81,5 +81,10 @@ class Image
         $this->url = $url;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->url ?? '';
     }
 }
