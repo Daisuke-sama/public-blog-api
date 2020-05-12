@@ -14,7 +14,10 @@ use App\Controller\UploadImageAction;
  * @ORM\Entity()
  * @Vich\Uploadable()
  * @ApiResource(
- *     attributes={"order"={"id": "DESC"}},
+ *     attributes={
+ *          "order"={"id": "DESC"},
+ *          "formats"={"json", "jsonld", "form"={"multipart/form-data"}}
+ *     },
  *     collectionOperations={
  *          "get"={
  *              "normalization_context"={
@@ -73,7 +76,7 @@ class Image
 
     public function getUrl(): ?string
     {
-        return '/images/' . $this->url;
+        return '/images/'.$this->url;
     }
 
     public function setUrl($url): self

@@ -1,0 +1,22 @@
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext:
+                    fixtures: '@App\DataFixtures\AppFixtures'
+                    entityManager: '@doctrine.orm.default_entity_manager'
+                - Behat\MinkExtension\Context\MinkContext
+                - behatch:context:json
+
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: features/bootstrap/bootstrap.php
+                class: App\Kernel
+        Behatch\Extension: ~
+        Behat\MinkExtension:
+            base_url: 'http://127.0.0.1:8001'
+            files_path: 'features/fixtures/files'
+            sessions:
+                default:
+                    symfony2: ~

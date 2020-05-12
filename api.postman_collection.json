@@ -1,0 +1,1217 @@
+{
+	"info": {
+		"_postman_id": "d79e27ee-ec5b-46e4-a703-af9fce9129ab",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "search",
+					"item": [
+						{
+							"name": "get blog posts filter date",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{latest_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{root_url}}/api/blog_posts?published[strictly_after]=2014-10-28T05:06:46&published[before]=2015-08",
+									"host": [
+										"{{root_url}}"
+									],
+									"path": [
+										"api",
+										"blog_posts"
+									],
+									"query": [
+										{
+											"key": "published[strictly_after]",
+											"value": "2014-10-28T05:06:46"
+										},
+										{
+											"key": "published[before]",
+											"value": "2015-08"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get blog posts filter search",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{latest_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{root_url}}/api/blog_posts?title=Alice&content=Cat&author.name=vitya",
+									"host": [
+										"{{root_url}}"
+									],
+									"path": [
+										"api",
+										"blog_posts"
+									],
+									"query": [
+										{
+											"key": "title",
+											"value": "Alice"
+										},
+										{
+											"key": "content",
+											"value": "Cat"
+										},
+										{
+											"key": "author.name",
+											"value": "vitya"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get blog posts filter range",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{latest_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{root_url}}/api/blog_posts?id[gt]=780&id[lte]=790",
+									"host": [
+										"{{root_url}}"
+									],
+									"path": [
+										"api",
+										"blog_posts"
+									],
+									"query": [
+										{
+											"key": "id[gt]",
+											"value": "780"
+										},
+										{
+											"key": "id[lte]",
+											"value": "790"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get blog posts filter order",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{latest_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{root_url}}/api/blog_posts?_order[id]=asc&_order[published]=desc",
+									"host": [
+										"{{root_url}}"
+									],
+									"path": [
+										"api",
+										"blog_posts"
+									],
+									"query": [
+										{
+											"key": "_order[id]",
+											"value": "asc"
+										},
+										{
+											"key": "_order[published]",
+											"value": "desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get blog posts filter property",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"followRedirects": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{latest_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{root_url}}/api/blog_posts?properties[]=author&properties[]=title",
+									"host": [
+										"{{root_url}}"
+									],
+									"path": [
+										"api",
+										"blog_posts"
+									],
+									"query": [
+										{
+											"key": "properties[]",
+											"value": "author"
+										},
+										{
+											"key": "properties[]",
+											"value": "title"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "get blog posts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"followRedirects": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/blog_posts/784",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"blog_posts",
+								"784"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get blog posts paged",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"followRedirects": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/blog_posts?pagination=true&_page=2",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"blog_posts"
+							],
+							"query": [
+								{
+									"key": "pagination",
+									"value": "true"
+								},
+								{
+									"key": "_page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"\",\n\t\"content\": \"\",\n\t\"slug\": \"a-slug\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/blog_posts",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"blog_posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"images\": [\n\t\t\"/api/images/2\"\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/blog_posts/784",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"blog_posts",
+								"784"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "get comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/api/comments",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"New wqrwqewqercwqecomment from Petr\",\n    \"post\": \"/api/blog_posts/470\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/comments",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"New comment Edit From Vasya\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/comments/1073",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"1073"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comments of post",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/blog_posts/501/comments",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"blog_posts",
+								"501",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comments of post paged",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/blog_posts/767/comments?pagination=true&itemsPerPage=2",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"blog_posts",
+								"767",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "pagination",
+									"value": "true"
+								},
+								{
+									"key": "itemsPerPage",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "add user",
+					"item": [
+						{
+							"name": "add user",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{latest_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"pasha2\",\n    \"name\": \"Pasha\",\n    \"email\": \"aaa2@api.loc\",\n    \"password\": \"passW2\",\n    \"retypedPassword\": \"passW2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{root_url}}/api/users",
+									"host": [
+										"{{root_url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add empty user",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{latest_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{root_url}}/api/users",
+									"host": [
+										"{{root_url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "get users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "529d54aa-5149-46b6-bf27-3618bc48d83f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/users/57",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"57"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"pasha4\",\n    \"name\": \"Pasha!\",\n    \"email\": \"aaa4@api.loc\",\n    \"password\": \"passW4\",\n    \"retypedPassword\": \"passW4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/users/39",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirm user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"confirmationToken\": \"SMPVGN&%5R84L7*5G*N4A8:ESTEK>H\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/users/confirm",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "33cd9bfd-dce4-4dfb-9ed1-498cadb8e0b8",
+								"exec": [
+									"pm.environment.set(\"latest_token\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"newPassword\": \"Secret1%\",\n\t\"retypedNewPassword\": \"Secret1%\",\n\t\"oldPassword\": \"Secret1%\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/users/69/reset-password",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"69",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "images",
+			"item": [
+				{
+					"name": "add image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/pavel_burylichau/Downloads/67589615_2618654141501631_282502491801649152_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{root_url}}/api/images",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get images",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/api/images",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get images of blog",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"followRedirects": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{latest_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/api/blog_posts/784",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"api",
+								"blog_posts",
+								"784"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "get token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d9bd132-5d5c-4214-bccc-5656234bfa0a",
+						"exec": [
+							"pm.environment.set(\"latest_token\", pm.response.json().token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root_url}}/api/login_check",
+					"host": [
+						"{{root_url}}"
+					],
+					"path": [
+						"api",
+						"login_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "root",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{latest_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{root_url}}/api",
+					"host": [
+						"{{root_url}}"
+					],
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

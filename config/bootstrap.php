@@ -14,7 +14,8 @@ if (is_array($env = @include dirname(__DIR__).'/.env.local.php') && (!isset($env
     throw new RuntimeException('Please run "composer require symfony/dotenv" to load the ".env" files configuring the application.');
 } else {
     // load all the .env files
-    (new Dotenv(false))->loadEnv(dirname(__DIR__).'/.env');
+    $env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] === 'dev' ? '' : '.test';
+    (new Dotenv(false))->loadEnv(dirname(__DIR__).'/.env' . $env);
 }
 
 $_SERVER += $_ENV;
